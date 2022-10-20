@@ -1,3 +1,4 @@
+import graphics.PieChartGenerator;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
 import io.qameta.allure.model.TestResult;
@@ -18,7 +19,7 @@ import java.util.List;
 public class DocxHelper {
 
     @SneakyThrows
-    public XWPFDocument createDocxFile(List<TestResult> results) {
+    public XWPFDocument createDocxFile(final List<TestResult> results) {
 
         //Получим метрики
         var metric = new Metric(results);

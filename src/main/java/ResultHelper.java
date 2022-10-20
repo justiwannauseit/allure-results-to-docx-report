@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ResultHelper {
 
     @SneakyThrows
-    public static List<TestResult> getTestResults(Path allureResultPath) {
+    public static List<TestResult> getTestResults(final Path allureResultPath) {
         var files = getJsonResultList(allureResultPath);
         final List<TestResult> results = new ArrayList<>();
         files.forEach(path -> {
@@ -28,7 +28,7 @@ public class ResultHelper {
     }
 
     @SneakyThrows
-    private static List<Path> getJsonResultList(Path reportPath) {
+    private static List<Path> getJsonResultList(final Path reportPath) {
         final List<Path> files = Files.walk(reportPath)
                 .filter(s -> s.toString().endsWith("-result.json"))
                 .collect(Collectors.toList());

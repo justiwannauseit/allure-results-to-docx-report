@@ -5,19 +5,13 @@ import java.io.File;
 @Log
 public class Runner {
 
-    public static void main(String[] args) {
+    public static void main(final String... args) {
 
-        var results = ResultHelper.getTestResults(new File("./allure-results").toPath());
+        var from = System.getProperty("from", "./allure-results");
+        var out = System.getProperty("from", "out.docx");
 
-        /**Если два теста имеют одинаковые названия то в мапу положется только один какой-то...
-         * лучше брать лист результатов и исходя из этого делать табличку*/
-        //Мапа в которой лежит статус и назавние теста
-//        var map = new HashMap<String, String>();
-//        results.forEach(x -> map.put(x.getFullName(), x.getStatus().toString()));
-
-        //Печатаем отчет
-        DocxHelper.saveDocument(DocxHelper.createDocxFile(results), "out.docx");
-
+        var results = ResultHelper.getTestResults(new File(from).toPath());
+        DocxHelper.saveDocument(DocxHelper.createDocxFile(results), out);
     }
 
 }

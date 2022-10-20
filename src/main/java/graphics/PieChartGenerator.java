@@ -1,3 +1,5 @@
+package graphics;
+
 import lombok.SneakyThrows;
 import metric.Metric;
 import org.knowm.xchart.PieChart;
