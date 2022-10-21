@@ -16,7 +16,7 @@
 ### Запуск через jar файл
 
 ```
-java -jar allure-to-docx.jar -Dfrom="./allure-result" -Dout="out.docx"
+java -jar docAllure.jar -Dfrom="./allure-result" -Dout="out.docx"
 ```
 
 ### Запуск в проекте
