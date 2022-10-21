@@ -135,7 +135,7 @@ public class DocxHelper {
         for (int i = 0; i < results.size(); i++) {
             createParagraphForTableBodyTestCaseName(table.getRow(i + 1).getCell(0).getParagraphs().get(0), results.get(i).getFullName());
 
-            var status = results.get(1).getStatus();
+            var status = results.get(i).getStatus();
             if (status.equals(Status.FAILED)) {
                 table.getRow(i + 1).getCell(1).setColor("facc9d");
             }
