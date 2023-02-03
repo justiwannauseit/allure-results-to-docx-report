@@ -1,7 +1,7 @@
-package allureToDocx;
+package allure.to.docx;
 
-import allureToDocx.core.DocxHelper;
-import allureToDocx.core.ResultHelper;
+import allure.to.docx.core.DocxHelper;
+import allure.to.docx.core.ResultHelper;
 import lombok.extern.java.Log;
 
 import java.io.File;

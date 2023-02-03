@@ -2,7 +2,7 @@
 
 #### _____________
 
-## ***ALPHA VERSION only for Russian Language***
+## ***Now supports Russian and English languages***
 
 ## Описание
 
@@ -25,4 +25,23 @@ java -jar docAllure.jar -Dfrom="./allure-result" -Dout="out.docx"
 В классе Runner прописать путь до папки с отчетом и имя файла docx
 ```
 
+## Description
 
+Result converter from allure-result folder in your project
+
+1. The folder should contain json files with results
+2. Logging is not noted in report
+
+## Run guide
+
+### Run via jar file
+
+```
+java -jar docAllure.jar -Dfrom="./allure-result" -Dout="out.docx"
+```
+
+### Run via project Runner class
+
+```
+in a Runner class write path to folder with reports and name of output file (.docx) 
+```

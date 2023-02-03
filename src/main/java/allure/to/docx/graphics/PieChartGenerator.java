@@ -1,8 +1,9 @@
-package allureToDocx.graphics;
+package allure.to.docx.graphics;
 
-import allureToDocx.metric.Metric;
-import allureToDocx.style.Colors;
+import allure.to.docx.metric.Metric;
+import allure.to.docx.style.Colors;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.PieSeries;
@@ -13,24 +14,28 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import static allure.to.docx.util.LocaleUtil.REPORT_CONFIGURATION;
+import static allure.to.docx.util.LocaleUtil.localizeCode;
+
+@UtilityClass
 public class PieChartGenerator {
 
     public static PieChart getChart(Metric metric) {
 
         // Create Chart
         PieChart chart = new PieChartBuilder()
-                .width(800)
-                .height(800)
-                .title(String.format("Из %d тестов успешных %d", metric.getCountAllTests(), metric.getCountPassedTests()))
+                .width(REPORT_CONFIGURATION.pieChartWidth())
+                .height(REPORT_CONFIGURATION.pieChartHeight())
+                .title(String.format(localizeCode("pie.chart.title"), metric.getCountAllTests(), metric.getCountPassedTests()))
                 .build();
 
         // Customize Chart
         chart.getStyler().setSeriesColors(Colors.getSliceColors());
 
         chart.getStyler().setChartTitleVisible(false);
-        chart.getStyler().setChartTitleFont(new Font("Times New Roman", 0, 20));
+        chart.getStyler().setChartTitleFont(new Font(REPORT_CONFIGURATION.fontFamily(), Font.PLAIN, REPORT_CONFIGURATION.pieChartFontSize()));
 
-        chart.getStyler().setLabelsFont((new Font("Century Gothic", 1, 20)));
+        chart.getStyler().setLabelsFont((new Font(REPORT_CONFIGURATION.pieChartFontFamily(), Font.BOLD, REPORT_CONFIGURATION.pieChartFontSize())));
         chart.getStyler().setLabelsFontColor(Colors.WHITE.getColor());
 
         chart.getStyler().setChartBackgroundColor(Color.white);
@@ -38,17 +43,17 @@ public class PieChartGenerator {
         // Customize Chart
         chart.getStyler().setLegendVisible(true); // Показать легенду
 
-        chart.getStyler().setLabelsDistance(0.82);
-        chart.getStyler().setPlotContentSize(.80);
+        chart.getStyler().setLabelsDistance(REPORT_CONFIGURATION.pieChartLabelsDistance());
+        chart.getStyler().setPlotContentSize(REPORT_CONFIGURATION.pieChartPlotContentSize());
         chart.getStyler().setDefaultSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Donut);
-        chart.getStyler().setPlotBorderColor(Colors.EMPTY.getColor());
+        chart.getStyler().setPlotBorderColor(Colors.TRANSPARENT.getColor());
 
-        chart.getStyler().setLegendPadding(15);
-        chart.getStyler().setLegendFont(new Font("Century Gothic", 1, 22));
+        chart.getStyler().setLegendPadding(REPORT_CONFIGURATION.pieChartLegendPadding());
+        chart.getStyler().setLegendFont(new Font(REPORT_CONFIGURATION.pieChartFontFamily(), Font.BOLD, REPORT_CONFIGURATION.pieChartLegendFontSize()));
         chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideSE);
-        chart.getStyler().setLegendBorderColor(Colors.EMPTY.getColor());
+        chart.getStyler().setLegendBorderColor(Colors.TRANSPARENT.getColor());
 
-        chart.getStyler().setSliceBorderWidth(3);
+        chart.getStyler().setSliceBorderWidth(REPORT_CONFIGURATION.pieChartBorderWidth());
 
         // Series
         chart.addSeries(Colors.PASSED.getLabel(), metric.getCountPassedTests());
@@ -68,7 +73,7 @@ public class PieChartGenerator {
         Graphics2D graphics2D = bImg.createGraphics();
         graphics2D.setColor(Color.BLUE);
         pieChart.paint(graphics2D, pieChart.getWidth(), pieChart.getHeight());
-        ImageIO.write(bImg, "png", new File("./output_image.png"));
+        ImageIO.write(bImg, "png", new File(REPORT_CONFIGURATION.outputPath()));
     }
 
 }

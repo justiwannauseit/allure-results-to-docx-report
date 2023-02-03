@@ -5,12 +5,12 @@ plugins {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'allureToDocx.Runner'
+                'Main-Class': 'allure.to.docx.Runner'
         )
     }
 }
 
-group 'ru.docallure'
+group 'ru.doc.allure'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -18,6 +18,8 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'org.aeonbits.owner:owner:1.0.12'
 
     //Junit
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'

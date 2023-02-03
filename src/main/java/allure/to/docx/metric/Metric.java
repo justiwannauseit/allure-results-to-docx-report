@@ -1,4 +1,4 @@
-package allureToDocx.metric;
+package allure.to.docx.metric;
 
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.TestResult;
