@@ -34,73 +34,72 @@ public class DocxHelper {
         //Сохраним круговую диаграмму результатов
         PieChartGenerator.save(metric);
 
-        try (XWPFDocument document = new XWPFDocument()) {
+        XWPFDocument document = new XWPFDocument();
 
-            // Создание заголовка
-            XWPFParagraph title = document.createParagraph();
-            title.setAlignment(ParagraphAlignment.CENTER);
+        // Создание заголовка
+        XWPFParagraph title = document.createParagraph();
+        title.setAlignment(ParagraphAlignment.CENTER);
 
-            // Форматирование заголовка
-            XWPFRun titleRun = title.createRun();
-            titleRun.setText(LocaleUtil.localizeCode("test.report"));
-            titleRun.setColor(LocaleUtil.localizeCode("title.color"));
-            titleRun.setBold(true);
-            titleRun.setFontFamily(REPORT_CONFIGURATION.fontFamily());
-            titleRun.setFontSize(REPORT_CONFIGURATION.fontSize());
+        // Форматирование заголовка
+        XWPFRun titleRun = title.createRun();
+        titleRun.setText(LocaleUtil.localizeCode("test.report"));
+        titleRun.setColor(REPORT_CONFIGURATION.titleColor());
+        titleRun.setBold(true);
+        titleRun.setFontFamily(REPORT_CONFIGURATION.fontFamily());
+        titleRun.setFontSize(REPORT_CONFIGURATION.fontSize());
 
-            // Подзаголовок
-            XWPFParagraph subTitle = document.createParagraph();
-            subTitle.setAlignment(ParagraphAlignment.CENTER);
+        // Подзаголовок
+        XWPFParagraph subTitle = document.createParagraph();
+        subTitle.setAlignment(ParagraphAlignment.CENTER);
 
-            // Форматирование подзаголовка
-            XWPFRun subTitleRun = subTitle.createRun();
-            var date = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(REPORT_CONFIGURATION.datePattern());
+        // Форматирование подзаголовка
+        XWPFRun subTitleRun = subTitle.createRun();
+        var date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(REPORT_CONFIGURATION.datePattern());
 
-            subTitleRun.setText(LocaleUtil.localizeCode("test.period") + date.format(formatter));
-            subTitleRun.setColor(LocaleUtil.localizeCode("title.color"));
-            subTitleRun.setFontFamily(REPORT_CONFIGURATION.fontFamily());
-            subTitleRun.setFontSize(REPORT_CONFIGURATION.subTitleFontSize());
-            subTitleRun.setTextPosition(REPORT_CONFIGURATION.textPosition());
-            subTitleRun.setUnderline(UnderlinePatterns.SINGLE);
+        subTitleRun.setText(LocaleUtil.localizeCode("test.period") + date.format(formatter));
+        subTitleRun.setColor(REPORT_CONFIGURATION.titleColor());
+        subTitleRun.setFontFamily(REPORT_CONFIGURATION.fontFamily());
+        subTitleRun.setFontSize(REPORT_CONFIGURATION.subTitleFontSize());
+        subTitleRun.setTextPosition(REPORT_CONFIGURATION.textPosition());
+        subTitleRun.setUnderline(UnderlinePatterns.SINGLE);
 
-            // Вставка изображения
-            XWPFParagraph image = document.createParagraph();
-            image.setAlignment(ParagraphAlignment.CENTER);
+        // Вставка изображения
+        XWPFParagraph image = document.createParagraph();
+        image.setAlignment(ParagraphAlignment.CENTER);
 
-            XWPFRun imageRun = image.createRun();
-            imageRun.setTextPosition(REPORT_CONFIGURATION.subTitleFontSize());
+        XWPFRun imageRun = image.createRun();
+        imageRun.setTextPosition(REPORT_CONFIGURATION.subTitleFontSize());
 
 //        Path imagePath = Paths.get(ClassLoader.getSystemResource("./output_image.png").toURI());
-            var imagePath = new File(REPORT_CONFIGURATION.outputPath()).toPath();
-            imageRun.addPicture(Files.newInputStream(imagePath),
-                    XWPFDocument.PICTURE_TYPE_PNG, imagePath.getFileName().toString(),
-                    Units.toEMU(350), Units.toEMU(350));
+        var imagePath = new File(REPORT_CONFIGURATION.outputPath()).toPath();
+        imageRun.addPicture(Files.newInputStream(imagePath),
+                XWPFDocument.PICTURE_TYPE_PNG, imagePath.getFileName().toString(),
+                Units.toEMU(350), Units.toEMU(350));
 
-            printMetrics(document, metric);
+        printMetrics(document, metric);
 
-            //Создадим таблицу
-            generateTable2X2FromMap(document, results);
+        //Создадим таблицу
+        generateTable2X2FromMap(document, results);
 
 
-            // Напишем, что дальше пойдут результаты:
-            // Создание заголовка
-            XWPFParagraph title2 = document.createParagraph();
-            title2.setAlignment(ParagraphAlignment.LEFT);
+        // Напишем, что дальше пойдут результаты:
+        // Создание заголовка
+        XWPFParagraph title2 = document.createParagraph();
+        title2.setAlignment(ParagraphAlignment.LEFT);
 
-            // Форматирование заголовка
-            XWPFRun titleRun2 = title2.createRun();
-            titleRun2.setText(LocaleUtil.localizeCode("test.cases"));
-            titleRun2.setColor(REPORT_CONFIGURATION.titleColor());
-            titleRun2.setBold(true);
-            titleRun2.setFontFamily(REPORT_CONFIGURATION.fontFamily());
-            titleRun2.setFontSize(REPORT_CONFIGURATION.fontSize());
+        // Форматирование заголовка
+        XWPFRun titleRun2 = title2.createRun();
+        titleRun2.setText(LocaleUtil.localizeCode("test.cases"));
+        titleRun2.setColor(REPORT_CONFIGURATION.titleColor());
+        titleRun2.setBold(true);
+        titleRun2.setFontFamily(REPORT_CONFIGURATION.fontFamily());
+        titleRun2.setFontSize(REPORT_CONFIGURATION.fontSize());
 
-            //Печатаем сами шаги
-            results.forEach(result -> printSteps(document, result));
+        //Печатаем сами шаги
+        results.forEach(result -> printSteps(document, result));
 
-            return document;
-        }
+        return document;
     }
 
     @SneakyThrows
