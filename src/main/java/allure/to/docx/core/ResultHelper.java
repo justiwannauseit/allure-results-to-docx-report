@@ -1,8 +1,9 @@
-package allureToDocx.core;
+package allure.to.docx.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.model.TestResult;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import lombok.extern.java.Log;
 
 import java.io.IOException;
@@ -11,8 +12,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Log
+@UtilityClass
 public class ResultHelper {
 
     @SneakyThrows
@@ -31,10 +34,15 @@ public class ResultHelper {
 
     @SneakyThrows
     private static List<Path> getJsonResultList(final Path reportPath) {
-        final List<Path> files = Files.walk(reportPath)
-                .filter(s -> s.toString().endsWith("-result.json"))
-                .collect(Collectors.toList());
+        final List<Path> files;
+
+        try (Stream<Path> walk = Files.walk(reportPath)) {
+            files = walk.filter(s -> s.toString().endsWith("-result.json"))
+                    .collect(Collectors.toList());
+        }
+
         log.info("Сколько нашлось результатов: " + files.size());
+
         return files;
     }
 }
