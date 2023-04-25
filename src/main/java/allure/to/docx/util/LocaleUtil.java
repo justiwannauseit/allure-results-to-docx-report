@@ -11,8 +11,18 @@ import java.util.ResourceBundle;
 public class LocaleUtil {
 
     public static final ReportConfiguration REPORT_CONFIGURATION = ConfigFactory.create(ReportConfiguration.class);
-    private static final Locale currentLocale = new Locale(System.getProperty("user.language"), System.getProperty("user.country"));
-    public static final ResourceBundle bundle = ResourceBundle.getBundle("l10n", currentLocale);
+
+    private static Locale currentLocale;
+    private static ResourceBundle bundle;
+
+    public static void initialize(String language, String country) {
+        currentLocale = new Locale(language, country);
+        bundle = ResourceBundle.getBundle("l10n", currentLocale);
+    }
+
+    public static Locale getCurrentLocale() {
+        return currentLocale;
+    }
 
     public static String localizeCode(String code) {
         if (bundle.containsKey(code)) {

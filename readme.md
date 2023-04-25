@@ -3,7 +3,7 @@
 #### _____________
 
 ## ***Now supports Russian and English languages***
-
+### ***You can build your version jar via gradle task 'jar'***
 ## Описание
 
 Генерация проходит из allure-results
@@ -16,8 +16,20 @@
 ### Запуск через jar файл
 
 ```
-java -jar docAllure.jar -Dfrom="./allure-result" -Dout="out.docx"
+java -jar docAllure.jar --from='./allure-result' --out='out.docx'
 ```
+
+### Список опций
+
+1) `--from` - путь до папки Allure result. Программа должна понять откуда брать json файлы. По умолчанию указана текущая
+   папка: `./allure-results`
+
+2) `--out` - параметр указывает куда сохранить файл. Программа должна понять куда сохранять. Важно указать
+   расширение `docx`. По умолчанию указано: `./out.docx`
+
+3) `--lang` - язык для локализации. По умолчанию указано: `ru`
+
+4) `--country` - страна для локализации. По умолчанию указано: `RU`
 
 ### Запуск в проекте
 
@@ -37,8 +49,20 @@ Result converter from allure-result folder in your project
 ### Run via jar file
 
 ```
-java -jar docAllure.jar -Dfrom="./allure-result" -Dout="out.docx"
+java -jar docAllure.jar --from='./allure-result' --out='out.docx'
 ```
+
+### Options list
+
+1) `--from` - path to the Allure result folder. The program must know where to get json files from. By default, the
+   current folder is specified: `./allure-results`
+
+2) `--out` - the parameter specifies where to save the file. The program must understand where to save. It is important
+   to specify the `docx` extension. Default: `./out.docx`
+
+3) `--lang` - language for localization. Default: `ru`
+
+4) `--country` - country for localization. Default: `RU`
 
 ### Run via project Runner class
 

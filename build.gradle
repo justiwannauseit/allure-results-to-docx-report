@@ -2,16 +2,10 @@ plugins {
     id 'java'
 }
 
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'allure.to.docx.Runner'
-        )
-    }
-}
 
 group 'ru.doc.allure'
-version '1.0-SNAPSHOT'
+version '1.0.1'
+def mainClassName = "allure.to.docx.Runner"
 
 repositories {
     mavenCentral()
@@ -33,14 +27,27 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    // Библиотека для генерации док файлов
+    //For generate docx file
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
     implementation 'org.knowm.xchart:xchart:3.8.2'
 
-    //Библиотека для работы с результатами тестирования
-    implementation("io.qameta.allure:allure-model:2.13.1")
+    //For parse allure result
+    implementation 'io.qameta.allure:allure-model:2.13.1'
+
+    //For parse options
+    implementation 'com.github.pcj:google-options:1.0.0'
 }
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "$mainClassName"
+    }
+
+    from {
+        configurations.compileClasspath.filter { it.exists() }.collect { zipTree(it) }
+    }
 }
